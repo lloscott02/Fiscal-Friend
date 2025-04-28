@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiscal Friend - Your Personal Finance Companion</title>
+    {% load static %}
+    <!-- Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Animation library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Google Fonts - SF Pro inspired fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+        :root {
+            --lime-accent: #b4ff3d;
+            --lime-accent-dark: #9ae62d;
+            --lime-accent-light: #e0ffa3;
+            --lime-accent-glow: rgba(180, 255, 61, 0.4);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: -0.015em;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            letter-spacing: -0.025em;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse-slow {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .lime-accent {
+            color: var(--lime-accent);
+        }
+        
+        .lime-bg {
+            background-color: var(--lime-accent);
+        }
+        
+        .lime-hover:hover {
+            background-color: var(--lime-accent-dark);
+        }
+        
+        .lime-border {
+            border-color: var(--lime-accent);
+        }
+        
+        .lime-hover-border:hover {
+            border-color: var(--lime-accent-dark);
+        }
+        
+        .lime-text-hover:hover {
+            color: var(--lime-accent);
+        }
+        
+        .text-balance {
+            text-wrap: balance;
+        }
+        
+        .glass-effect {
+            background: rgba(17, 17, 17, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--lime-accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background-color: var(--lime-accent);
+            color: black;
+            font-weight: 500;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(180, 255, 61, 0.3), 0 2px 4px -1px rgba(180, 255, 61, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--lime-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(180, 255, 61, 0.4), 0 4px 6px -1px rgba(180, 255, 61, 0.3);
+        }
+        
+        .btn-secondary {
+            border: 1px solid rgba(180, 255, 61, 0.4);
+            color: white;
+            font-weight: 500;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--lime-accent);
+            color: var(--lime-accent);
+            transform: translateY(-2px);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 20px var(--lime-accent-glow);
+        }
+        
+        .hero-headline {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-headline {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* Logo styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--lime-accent) 0%, var(--lime-accent-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: black;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+            top: 0;
+            left: 0;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: 15%;
+            left: 15%;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, white 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Animation for the floating card */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Hero headline animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+        
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+        
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen antialiased">
+    <!-- Navigation -->
+    <nav class="glass-effect sticky top-0 z-50 border-b border-gray-800">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="logo-container">
+                    <div class="logo">FF</div>
+                    <span class="logo-text">Fiscal Friend</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="nav-link text-gray-300 hover:text-white transition duration-300">Features</a>
+                    <a href="#how-it-works" class="nav-link text-gray-300 hover:text-white transition duration-300">How It Works</a>
+                    <a href="#pricing" class="nav-link text-gray-300 hover:text-white transition duration-300">Pricing</a>
+                    <a href="#about" class="nav-link text-gray-300 hover:text-white transition duration-300">About</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'finance:dashboard' %}" class="btn-secondary">Login</a>
+                    <a href="{% url 'finance:dashboard' %}" class="btn-primary">Get Started</a>
+                </div>
+                <button class="md:hidden text-gray-300 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-20 md:py-32">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fadeInUp">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-balance">Take Control of Your <span class="lime-accent">Financial Future</span> Today</h1>
+                    <p class="text-xl text-gray-300 mb-8 max-w-lg">Fiscal Friend helps you track expenses, set budgets, and achieve your financial goals with powerful insights and personalized recommendations.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-12">
+                        <a href="{% url 'finance:dashboard' %}" class="btn-primary text-center">Get Started</a>
+                        <a href="{% url 'finance:dashboard' %}" class="btn-secondary text-center">Login</a>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex -space-x-4">
+                            <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-gray-800">
+                            <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-gray-800">
+                            <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-gray-800">
+                        </div>
+                        <p class="ml-4 text-gray-300">Join <span class="text-white font-medium">10,000+</span> users already managing their finances</p>
+                    </div>
+                </div>
+                <div class="relative animate-fadeInUp delay-200">
+                    <div class="floating bg-gray-900 rounded-2xl p-6 border border-gray-800 card-shadow max-w-md mx-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-white">Monthly Budget</h3>
+                            <span class="text-sm text-gray-400">May 2023</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <p class="text-gray-400 text-sm">Total Budget</p>
+                                <p class="text-2xl font-bold lime-accent">$4,500.00</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm">Spent</p>
+                                <p class="text-2xl font-bold text-white">$3,250.00</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-300">Food & Dining</span>
+                                <span class="text-white">$850 / $1,000</span>
+                            </div>
+                            <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                                <div class="h-full lime-bg rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-300">Transportation</span>
+                                <span class="text-white">$450 / $500</span>
+                            </div>
+                            <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                                <div class="h-full lime-bg rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-300">Entertainment</span>
+                                <span class="text-white">$300 / $400</span>
+                            </div>
+                            <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                                <div class="h-full lime-bg rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-gray-800">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-300">Remaining</span>
+                                <span class="text-white font-medium">$1,250.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -top-10 -right-10 w-20 h-20 bg-lime-accent rounded-full opacity-20 blur-xl"></div>
+                    <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500 rounded-full opacity-20 blur-xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Powerful Features for Your Financial Success</h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">Everything you need to manage your finances effectively in one place.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card bg-gray-800 rounded-xl p-6 border border-gray-700">
+                    <div class="bg-lime-accent bg-opacity-20 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-lime-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Expense Tracking</h3>
+                    <p class="text-gray-300">Easily track all your expenses across different categories and get insights into your spending habits.</p>
+                </div>
+                <div class="feature-card bg-gray-800 rounded-xl p-6 border border-gray-700">
+                    <div class="bg-lime-accent bg-opacity-20 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-lime-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Budget Planning</h3>
+                    <p class="text-gray-300">Create and manage budgets for different categories and get alerts when you're approaching your limits.</p>
+                </div>
+                <div class="feature-card bg-gray-800 rounded-xl p-6 border border-gray-700">
+                    <div class="bg-lime-accent bg-opacity-20 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-lime-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Financial Reports</h3>
+                    <p class="text-gray-300">Generate detailed reports and visualizations to understand your financial health and make informed decisions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Take Control of Your Finances?</h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Join thousands of users who are already managing their finances better with Fiscal Friend.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'finance:dashboard' %}" class="btn-primary">Get Started Now</a>
+                <a href="{% url 'finance:dashboard' %}" class="btn-secondary">Login</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="logo-container mb-4">
+                        <div class="logo">FF</div>
+                        <span class="logo-text">Fiscal Friend</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Your personal finance companion that helps you track expenses, set budgets, and achieve your financial goals.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-lime-accent">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-lime-accent">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-lime-accent">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Testimonials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-lime-accent">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; {% now "Y" %} Fiscal Friend. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

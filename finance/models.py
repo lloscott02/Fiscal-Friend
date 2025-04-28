@@ -1,10 +1,5 @@
 from django.db import models
 from django.contrib import admin
-from .models import Category, Budget, Expense
-
-admin.site.register(Category)
-admin.site.register(Budget)
-admin.site.register(Expense)
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -27,3 +22,8 @@ class Expense(models.Model):
 
     def __str__(self):
         return f"{self.category} - {self.amount} on {self.date}"
+
+# Register models with admin site
+admin.site.register(Category)
+admin.site.register(Budget)
+admin.site.register(Expense)
